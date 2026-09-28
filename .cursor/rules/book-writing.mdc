@@ -1,0 +1,40 @@
+---
+description: Book writing with the Proseify MCP server — genre recipe first, corpus grounding, one chapter per turn, per-chapter edit pass, evaluate_book as the gate.
+globs: ["manuscript/**", "chapters/**", "outline.md", "*.md"]
+alwaysApply: false
+---
+
+# Book writing with Proseify
+
+The `proseify` MCP server is a corpus and a genre-discipline layer. **You** write the prose; it
+supplies the literature, the genre recipes and the scoring gate. It calls no model.
+
+## Order of operations
+
+1. `list_genres` -> `get_genre_recipe` for the closest fit. Name the recipe and why, in one line.
+2. `search_corpus` for 3-5 model passages in that genre. Quote one line that sets the register.
+3. `plan_book` **once** — premise, chapter count, word budget. Print the outline. Hold it.
+4. Draft **one chapter per turn**. After each, run the edit pass below and state what you cut.
+5. `evaluate_book` before calling the book done. Fix flagged chapters, re-run, then report.
+
+## Per-chapter edit pass
+
+- `seemed to`, `began to`, `started to`, `could feel` — delete or recast
+- filter words: *felt, noticed, watched, saw, heard*
+- stacked adverbs on dialogue tags; plain `said` is fine
+- repeated sentence openings; weather openings
+- three-item lists as rhythm filler
+- dialogue that exists to explain plot to the reader
+- the last line turning into a metaphor for the chapter
+
+## Files
+
+- One file per chapter: `chapters/NN-title.md`. Write the chapter to disk *before* starting the next.
+- `outline.md` holds the `plan_book` output verbatim. Re-read it rather than re-planning.
+
+## Rules
+
+- Never print, commit or log the Proseify key; it comes from the `PROSEIFY_API_KEY` environment
+  variable and nowhere else.
+- A 50,000-word book is not one turn. If the user asks for it in one shot, draft chapter by chapter
+  and say so.
